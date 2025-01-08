@@ -1,0 +1,25 @@
+{
+  "name": "sse-test",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "example of server-sent events",
+  "author": "sonsurim",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "corepack enable",
+    "build": "tsc && cp client/index.html dist/client/index.html",
+    "start:server": "node dist/server/index.js",
+    "start:client": "serve dist/client -p 3001"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "serve": "^14.0.1",
+    "typescript": "^5.2.2"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "packageManager": "pnpm@8.15.7+sha512.c85cd21b6da10332156b1ca2aa79c0a61ee7ad2eb0453b88ab299289e9e8ca93e6091232b25c07cbf61f6df77128d9c849e5c9ac6e44854dbd211c49f3a67adc"
+}
