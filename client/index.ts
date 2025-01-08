@@ -1,10 +1,12 @@
 const eventsDiv = document.getElementById('events') as HTMLDivElement;
-const startBtn = document.getElementById('btn-start') as HTMLButtonElement;
-const stopBtn = document.getElementById('btn-stop') as HTMLButtonElement;
+const connectBtn = document.getElementById('btn-connect') as HTMLButtonElement;
+const disconnectBtn = document.getElementById('btn-disconnect') as HTMLButtonElement;
+const pauseAndResumeBtn = document.getElementById('btn-pause_resume') as HTMLButtonElement;
 
+let isPaused = false
 let eventSource: EventSource | null = null
 
-startBtn.addEventListener('click', () => {
+connectBtn.addEventListener('click', () => {
   if (eventSource)  {
     console.log('SSE is already running');
     return
@@ -13,7 +15,10 @@ startBtn.addEventListener('click', () => {
   eventSource = new EventSource('http://localhost:3000/events');
 
   eventSource.onmessage = (event) => {
-    console.log(event);
+    if (isPaused) {
+      return
+    }
+
     const data = JSON.parse(event.data);
     const newEvent = document.createElement('div');
     newEvent.textContent = `Message: ${data.message}, Counter: ${data.counter}`;
@@ -32,7 +37,7 @@ startBtn.addEventListener('click', () => {
 })
 
 
-stopBtn.addEventListener('click', () => {
+disconnectBtn.addEventListener('click', () => {
   if (!eventSource) {
     console.log('SSE is not running');
     return
@@ -44,5 +49,17 @@ stopBtn.addEventListener('click', () => {
 
   const stopMessage = document.createElement('div');
   stopMessage.textContent = 'SSE connection stopped.';
+  eventsDiv.appendChild(stopMessage);
+})
+
+pauseAndResumeBtn.addEventListener('click', () => {
+  if (!eventSource) {
+    console.log('SSE is not running');
+    return
+  }
+
+  isPaused = !isPaused;
+  const stopMessage = document.createElement('div');
+  stopMessage.textContent = `SSE ${isPaused ? 'paused' : 'resumed'}.`;
   eventsDiv.appendChild(stopMessage);
 })

@@ -17,6 +17,7 @@ app.get('/events', (req, res) => {
   const interval = setInterval(() => {
     counter++;
     res.write(`data: ${JSON.stringify({ message: 'Update from server', counter })}\n\n`);
+    console.log('Sent event', counter);
   }, 2000);
 
   req.on('close', () => {
